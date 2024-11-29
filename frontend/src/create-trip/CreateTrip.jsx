@@ -101,7 +101,8 @@ function CreateTrip(props) {
 
   const authenticateUserWithGoogle = useGoogleLogin({
     onSuccess: (codeResp) => GetUserProfile(codeResp),
-    onError:(error) => console.log(error)
+    onError:(error) => console.log(error),
+    redirectUri: "https://wandrwise-frontend.vercel.app",
   })
 
   const GetUserProfile = (tokenInfo) => {
