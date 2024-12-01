@@ -84,7 +84,7 @@ function Header({ loggedIn, setLoggedIn }) {
             <div className='pl-4 ml-4 border-l-2'>
               <Popover>
               <PopoverTrigger>
-                <img src={`${localStorage.getItem('profilepic')}`} className='h-10 rounded-full'></img>
+                <img src={`${localStorage.getItem('profilepic')}`} className='h-10 rounded-full' alt='profile' loading='lazy'></img>
               </PopoverTrigger>
               <PopoverContent className='rounded-3xl'>
                 <div>

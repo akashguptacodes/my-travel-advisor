@@ -102,7 +102,7 @@ function CreateTrip(props) {
   const authenticateUserWithGoogle = useGoogleLogin({
     onSuccess: (codeResp) => GetUserProfile(codeResp),
     onError:(error) => console.log(error),
-    redirectUri: "https://wandrwise-frontend.vercel.app",
+    redirect_uri: "https://wandrwise-frontend.vercel.app/create-trip",
   })
 
   const GetUserProfile = (tokenInfo) => {
@@ -144,13 +144,10 @@ function CreateTrip(props) {
 
       setProcessing(true);
       const result = await chatSession.sendMessage(FINAL_PROMT);
-      // console.log(result)
 
       const ans = result?.response.text();
-      // console.log(ans)
 
       const finalAns = await JSON.parse(ans.trim());
-      // console.log(finalAns)
 
 
       const hotels = await finalAns.hotelOptions;
@@ -158,7 +155,6 @@ function CreateTrip(props) {
       tripId = Date.now().toString();
 
 
-      // Prepare data to send to the backend
       setTripData({
         ...tripData,
         tripId: tripId,
@@ -192,7 +188,7 @@ function CreateTrip(props) {
         }
       } catch (error) {
         console.error('Error saving trip:', error);
-        toast.success('Just one step away, Check details once more then Generate Trip');
+        toast.success('Error while saving trip');
       }
     }
   }
