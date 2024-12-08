@@ -16,7 +16,7 @@ function ViewTrip() {
 
     async function deleteHandler() {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/delete-trip/${tripId}`)
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_PORT}/api/v1/delete-trip/${tripId}`)
             const data = await response.json()
             toast.success('Trip data deleted')
             navigate('/mytrips')
@@ -28,7 +28,7 @@ function ViewTrip() {
     }
     const fetchTrip = async (tripId) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/view-trip/${tripId}`)
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_PORT}/api/v1/view-trip/${tripId}`)
             toast.success('Review your trip')
             if (!response.ok) {
                 toast.error('Network response was not ok')
