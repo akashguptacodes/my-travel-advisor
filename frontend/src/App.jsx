@@ -7,15 +7,20 @@ import Header from './components/custom/Header'
 import ViewTrip from './Viewtrip/ViewTrip'
 import MyTrips from './Mytrips/MyTrips'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import toast from 'react-hot-toast'
 import PrivateRoute from './components/custom/PrivateRoute'
 import About from './components/custom/About'
 
+
 function App() {
-  const [loggedIn, setLoggedIn] = useState(() => {
-    // Check local storage for loggedIn state
-    return localStorage.getItem('loggedIn') === 'true';
-  });
+  // const [loggedIn, setLoggedIn] = useState(() => {
+  //   return localStorage.getItem('loggedIn') === 'true';
+  // });
+
+  const [loggedIn, setLoggedIn] = useState(null);
+  useEffect(() => {
+    setLoggedIn(localStorage.getItem('loggedIn'))
+  }, [localStorage.getItem('loggedIn')])
+  
 
   // function HandleLocalStorage(){
   //   {  loggedIn?(
@@ -33,7 +38,6 @@ function App() {
   // useEffect(()=>{
   //   HandleLocalStorage()
   // }, [])
-
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>

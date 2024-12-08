@@ -85,7 +85,6 @@ function CreateTrip(props) {
     if (!loggedIn) {
       const user = await authenticateUserWithGoogle()
       setOpenDialog(false);
-      // console.log(user);
     }
   }
 
@@ -96,13 +95,20 @@ function CreateTrip(props) {
     toast.success('Logged out but visit us whenever you need')
   }
   const LoginHandler = async () => {
-    authenticateUserWithGoogle();
+    await authenticateUserWithGoogle();
   }
 
   const authenticateUserWithGoogle = useGoogleLogin({
-    onSuccess: (codeResp) => GetUserProfile(codeResp),
-    onError:(error) => console.log(error),
-    redirect_uri: "https://wandrwise-frontend.vercel.app/create-trip",
+    onSuccess: (codeResp) => {
+      codeResp.created_at = Math.floor(Date.now()/1000);
+      codeResp.expires_in = 2*60*60;
+      GetUserProfile(codeResp);
+      setLoggedIn(true);
+      localStorage.setItem('loggedIn', true);
+      localStorage.setItem('token_expiry', codeResp.created_at + codeResp.expires_in)
+      console.log(codeResp);
+    },
+    onError:(error) => console.log('hii',error),
   })
 
   const GetUserProfile = (tokenInfo) => {
@@ -115,18 +121,39 @@ function CreateTrip(props) {
         }
       }
     ).then((resp) => {
-      console.log(resp);
-      setLoggedIn(true)
+      console.log(resp);   
       setOpenDialog(false)
       localStorage.setItem('email', resp?.data?.email)
       localStorage.setItem('name', resp?.data?.name)
       localStorage.setItem('profilepic', resp?.data?.picture)
       localStorage.setItem('given_name', resp?.data?.given_name)
-      localStorage.setItem('loggedIn', true)
       tripData.userEmail = localStorage.getItem('email')
     })
   }
+  const checkTokenValidity = () => {
+    const tokenExpiry = localStorage.getItem('token_expiry');
+    if (tokenExpiry) {
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (currentTime >= tokenExpiry) {
+        LogoutHandler();
+      } else {
+        const remainingTime = tokenExpiry - currentTime;
+        scheduleLogout(remainingTime);
+      }
+    }
+  };
 
+  const scheduleLogout = (expiresIn) => {
+    const timeout = expiresIn * 1000;
+    setTimeout(() => {
+      LogoutHandler();
+    }, timeout);
+  };
+  
+  // Run token validity check on component mount
+  useEffect(() => {
+    checkTokenValidity();
+  }, []);
 
   const OnGenerateTrip = async () => {
     if (!loggedIn) {
@@ -175,7 +202,7 @@ function CreateTrip(props) {
     setProcessing(false);
     setAiTripDone(true)
   }
-  const savetrip = async (tripData,tripId) => {
+  const savetrip = async (tripData) => {
     console.log(tripData)
     if (tripData) {
       try {
@@ -193,9 +220,11 @@ function CreateTrip(props) {
     }
   }
 
+
+
   return (
     <div className='py-1 sm:px-10 md:px-32 lg:px-56 xl:px-70 px-5'>
-      <div className='flex flex-col bg-gray-100 mb-10 justify-between shadow-slate-950 p-10'>
+      <div className='flex flex-col mb-10 justify-between shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 border-2 border-gray-300 rounded-lg p-10'>
         <div className='absolute right-5'>
           {
             loggedIn ? (<button className='bg-red-600 py-1 px-6 rounded text-gray-100 font-semibold hover:bg-red-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LogoutHandler}>Log out</button>)

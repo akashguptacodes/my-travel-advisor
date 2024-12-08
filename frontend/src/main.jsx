@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
   // <StrictMode>
     <BrowserRouter>
       <Analytics/>
-      <App className='bg-gradient-to-r from-blue-950 to-black'/>
+      <App/>
       <Toaster />
     </BrowserRouter>
   // </StrictMode>

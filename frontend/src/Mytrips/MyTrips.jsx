@@ -79,7 +79,7 @@ function MyTrips() {
         <div className='flex flex-col justify-between sm:px-10 md:px-32 lg:px-56 xl:px-70 px-5'>
             {
                 localStorage.getItem('email') &&
-                <div className='bg-gray-100 mb-10 h-full py-5 px-8 shadow-slate-800'>
+                <div className='bg-gray-100 mb-10 h-full py-5 px-8 shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 border-2 border-gray-300 rounded-lg'>
                     <h1 className='text-gray-700 text-4xl text-center font-bold'>🌏 Some parts of the world that you have Explored...</h1>
                     <div className='mt-10 flex flex-col gap-4 sm:grid grid-cols-2'>
                         {

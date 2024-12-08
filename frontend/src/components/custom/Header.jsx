@@ -88,7 +88,7 @@ function Header({ loggedIn, setLoggedIn }) {
               </PopoverTrigger>
               <PopoverContent className='rounded-3xl'>
                 <div>
-                    <img src={`${localStorage.getItem('profilepic')}`}  className='h-14 rounded-full ml-[40%] mt-4'></img>
+                    <img src={`${localStorage.getItem('profilepic')}`} alt='profile' loading='lazy' className='h-14 rounded-full ml-[40%] mt-4'></img>
                     <h2 className='font-semibold text-lg text-gray-800 mt-3 text-center'>{`Welcome ${localStorage.getItem('given_name')} !`}</h2>
                     <button onClick ={logout} className='flex gap-2 mt-3 px-1 py-1'><HiOutlineLogout fontSize='1.5rem'/>Log out</button>
                 </div>

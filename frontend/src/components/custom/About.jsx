@@ -8,7 +8,7 @@ import map2 from '../../assets/map2.png'
 function About() {
     return (
         <div className='py-1 sm:px-10 md:px-32 lg:px-56 xl:px-70 px-5'>
-            <div className='bg-gray-100 flex flex-col py-10 mb-10 gap-40 justify-between shadow-slate-950 px-10'>
+            <div className='bg-gray-100 flex flex-col py-10 mb-10 gap-40 justify-between shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 border-2 border-gray-300 rounded-lg px-10'>
             <h1 className='text-4xl text-center font-bold text-gray-800'>Discover the wonders of this website</h1>
                 <div className='flex flex-col gap-5 justify-center items-center sm:flex sm:flex-row'>
                     <div className='w-full flex justify-center hover:scale-105 transition duration-300'>
