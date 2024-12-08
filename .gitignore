@@ -20,7 +20,7 @@ out/
 .env
 .env.local
 .env.*.local
-.env.* 
+.env.*
 frontend/.env
 Backend/.env
 
