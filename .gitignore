@@ -20,10 +20,9 @@ out/
 .env
 .env.local
 .env.*.local
-.env.*
+.env.* 
 /frontend/.env
-/backend/.env
-
+/Backend/.env
 
 # IDE-specific files
 .vscode/
@@ -41,5 +40,5 @@ frontend/.next/
 frontend/.cache/
 
 # Backend specific
-backend/node_modules/
-backend/build/
+Backend/node_modules/
+Backend/build/
