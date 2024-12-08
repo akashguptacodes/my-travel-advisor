@@ -21,8 +21,6 @@ out/
 .env.local
 .env.*.local
 .env.* 
-/frontend/.env
-/Backend/.env
 
 # IDE-specific files
 .vscode/
