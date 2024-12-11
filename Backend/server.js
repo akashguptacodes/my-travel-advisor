@@ -10,6 +10,8 @@ app.use(cors({
   methods: ['GET', 'POST'], // Specify allowed methods
   credentials: true // Allow credentials if needed
 }));
+console.log(process.env.Frontend_URL);
+
 app.use(express.json());
 
 connectDB();
