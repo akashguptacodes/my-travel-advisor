@@ -206,7 +206,7 @@ function CreateTrip(props) {
     console.log(tripData)
     if (tripData) {
       try {
-        const response = await axios.post('http://localhost:5000/api/v1/savetrip', tripData);
+        const response = await axios.post('${import.meta.env.VITE_BACKEND_PORT}/api/v1/savetrip', tripData);
         console.log(response);
 
         if (response.data.success) {

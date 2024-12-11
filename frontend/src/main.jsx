@@ -7,12 +7,9 @@ import { Toaster, toast } from 'react-hot-toast'
 import { Analytics } from "@vercel/analytics/react"
 
 createRoot(document.getElementById('root')).render(
-  
-  // <StrictMode>
     <BrowserRouter>
       <Analytics/>
       <App/>
       <Toaster />
     </BrowserRouter>
-  // </StrictMode>
 )

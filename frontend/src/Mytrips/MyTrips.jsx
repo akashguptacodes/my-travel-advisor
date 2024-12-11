@@ -11,7 +11,7 @@ function MyTrips() {
 
     const fetchAllTrips = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/my-trips?email=${vEmail}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_PORT}/api/v1/my-trips?email=${vEmail}`);
             if (!response.ok) {
                 toast.error('Network response was not ok')
                 return
