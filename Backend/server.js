@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow only your frontend
+  origin: `${import.meta.env.Frontend_URL}`, // Allow only your frontend
   methods: ['GET', 'POST'], // Specify allowed methods
   credentials: true // Allow credentials if needed
 }));
