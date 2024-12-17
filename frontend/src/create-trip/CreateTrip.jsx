@@ -215,7 +215,7 @@ function CreateTrip(props) {
         }
       } catch (error) {
         console.error('Error saving trip:', error);
-        toast.success('Error while saving trip');
+        toast.error('Error while saving trip');
       }
     }
   }
