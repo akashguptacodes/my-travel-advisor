@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://wanderwise-frontend.vercel.app'],
+  origin: process.env.Frontend_URL,
   methods: ['GET', 'POST'], // Specify allowed methods
   credentials: true, // Allow credentials if needed
   allowedHeaders: ['Content-Type', 'Authorization']
