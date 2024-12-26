@@ -41,7 +41,6 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-          {/* <div className='bg-gradient-to-r from-blue-100 to-blue-400'> */}
             <Routes>
               <Route path='/' element={<Hero loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} />
               <Route path='/about' element={<About/>} />

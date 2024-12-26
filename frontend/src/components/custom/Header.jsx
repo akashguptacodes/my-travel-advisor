@@ -49,8 +49,9 @@ function Header({ loggedIn, setLoggedIn }) {
     googleLogout();
     setLoggedIn(false);
     localStorage.clear()
-    toast.success('Logged out but visit us whenever you need')
+    toast.success('Logged out, visit us whenever you need')
   }
+
 
 
   return (

@@ -70,6 +70,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import homeVideo from '../../assets/homeVideo.mp4'
+import { fadeIn } from '../../../framer';
+import { motion } from 'framer-motion';
 
 function Hero() {
   const navigate = useNavigate();
@@ -80,7 +82,11 @@ function Hero() {
 
   return (
 <div className="flex flex-col lg:flex-row items-center h-[88vh] gap-10 px-5 sm:px-10 md:px-32 lg:px-56 xl:px-70 bg-gradient-to-r from-gray-50 to-gray-200">
-  <div className="flex flex-col gap-6 sm:w-1/2">
+  <motion.div
+    variants={fadeIn('up',0.2)}
+    initial="hidden"
+    animate="show"
+    className="flex flex-col gap-6 sm:w-1/2">
     <h1 className="font-extrabold text-4xl leading-snug text-center sm:text-left">
       <span className="text-[#f56551] block">Your Trusted Guide to Safe and Memorable Travels:</span>
       <span className="text-[#444554] block">Explore the World Confidently, with Expert Advice</span>
@@ -94,13 +100,17 @@ function Hero() {
     >
       Get Started, it's free
     </button>
-  </div>
+  </motion.div>
 
-  <div className="sm:w-1/2">
+  <motion.div
+    variants={fadeIn('down',0.2)}
+    initial="hidden"
+    animate="show"
+    className="sm:w-1/2">
     <video className="rounded-lg shadow-lg w-full h-auto max-w-[500px] mx-auto" autoPlay muted loop>
       <source src={homeVideo} type="video/mp4" />
     </video>
-  </div>
+  </motion.div>
 </div>
   )
 }

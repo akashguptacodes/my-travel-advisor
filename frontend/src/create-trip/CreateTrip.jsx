@@ -17,6 +17,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { fadeIn } from '../../framer';
+import { motion } from 'framer-motion';
 
 
 function CreateTrip(props) {
@@ -101,7 +103,7 @@ function CreateTrip(props) {
   const authenticateUserWithGoogle = useGoogleLogin({
     onSuccess: (codeResp) => {
       codeResp.created_at = Math.floor(Date.now()/1000);
-      codeResp.expires_in = 2*60*60;
+      codeResp.expires_in = 3*60*60;
       GetUserProfile(codeResp);
       setLoggedIn(true);
       localStorage.setItem('loggedIn', true);
@@ -124,10 +126,12 @@ function CreateTrip(props) {
       console.log(resp);   
       setOpenDialog(false)
       localStorage.setItem('email', resp?.data?.email)
-      localStorage.setItem('name', resp?.data?.name)
       localStorage.setItem('profilepic', resp?.data?.picture)
+      localStorage.setItem('name', resp?.data?.name)
       localStorage.setItem('given_name', resp?.data?.given_name)
+      localStorage.setItem('family_name', resp?.data?.family_name)
       tripData.userEmail = localStorage.getItem('email')
+      navigate('/create-trip')
     })
   }
   const checkTokenValidity = () => {
@@ -224,7 +228,7 @@ function CreateTrip(props) {
 
   return (
     <div className='py-1 sm:px-10 md:px-32 lg:px-56 xl:px-70 px-5'>
-      <div className='flex flex-col mb-10 justify-between shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 border-2 border-gray-300 rounded-lg p-10'>
+      <div className='flex flex-col mb-10 justify-between shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 rounded-lg p-10'>
         <div className='absolute right-5'>
           {
             loggedIn ? (<button className='bg-red-600 py-1 px-6 rounded text-gray-100 font-semibold hover:bg-red-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LogoutHandler}>Log out</button>)
@@ -234,17 +238,40 @@ function CreateTrip(props) {
           }
         </div>
 
-        <h2 className='font-bold text-4xl text-center text-gray-800'>Tell us about your plan ✈️</h2>
-        <p className='mt-3 text-gray-600 text-lg text-center'>Just tell us what is in your mind and we will give you the best facilities and features...</p>
+        <motion.h2
+          variants={fadeIn('right',0.1)}
+          initial='hidden'
+          whileInView='show'
+          className='font-bold text-4xl text-center text-gray-800'>Tell us about your plan ✈️
+        </motion.h2>
+        <motion.p
+          variants={fadeIn('left',0.1)}
+          initial='hidden'
+          whileInView='show'
+          className='mt-3 text-gray-600 text-lg text-center'>Just tell us what is in your mind and we will give you the best facilities and features...</motion.p>
 
         <div className='flex flex-col gap-10'>
           <div className='mt-20'>
-            <h2 className='text-xl my-3 font-medium'>"Hey there, What should we call you?"</h2>
-            <input type='text' className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]' onChange={(e) => { handleInputChange('Name', e.target.value) }
-            }></input>
+            <motion.h2
+              variants={fadeIn('left',0.1)}
+              initial='hidden'
+              animate='show'
+              className='text-xl my-3 font-medium'>
+              "Hey there, What should we call you?"
+            </motion.h2>
+            <motion.input
+                variants={fadeIn('left',0.1)}
+                initial='hidden'
+                animate='show'
+            type='text' className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]' onChange={(e) => { handleInputChange('Name', e.target.value) }
+            }></motion.input>
           </div>
           <div className='10'>
-            <h2 className='text-xl my-3 font-medium'>What is your destination of choice?</h2>
+          <motion.h2
+              variants={fadeIn('left',0.1)}
+              initial='hidden'
+              animate='show'
+              className='text-xl my-3 font-medium'>What is your destination of choice?</motion.h2>
             <div>
                 <input
                   type="text"
@@ -267,13 +294,21 @@ function CreateTrip(props) {
           </div>
 
           <div>
-            <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
+          <motion.h2
+              variants={fadeIn('left',0.1)}
+              initial='hidden'
+              animate='show' 
+              className='text-xl my-3 font-medium'>How many days are you planning your trip?</motion.h2>
             <input type='number' placeholder='Ex-3' onChange={(e) => { handleInputChange('Days', e.target.value) }} className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]'></input>
           </div>
         </div>
 
         <div className='mt-20'>
-          <h2 className='text-xl my-3 font-medium'>Tell us about your budget?</h2>
+        <motion.h2
+              variants={fadeIn('left',0.1)}
+              initial='hidden'
+              animate='show' 
+              className='text-xl my-3 font-medium'>Tell us about your budget?</motion.h2>
           <p className='text-gray-600 text-sm font-medium'>Just asking to get an idea to plan activities for you...</p>
           <div className='xs:flex xs:flex-col sm:flex sm:flex-col md:grid lg:grid xl:grid grid-cols-3 gap-5 mt-5'>
             {
@@ -292,7 +327,11 @@ function CreateTrip(props) {
         </div>
 
         <div className='mt-20'>
-          <h2 className='text-xl my-3 font-medium'>Who do you plan on travelling with on your next adventure?</h2>
+        <motion.h2
+              variants={fadeIn('left',0.1)}
+              initial='hidden'
+              animate='show' 
+              className='text-xl my-3 font-medium'>Who do you plan on travelling with on your next adventure?</motion.h2>
           <div className='xs:flex xs:flex-col sm:flex sm:flex-col md:grid lg:grid xl:grid grid-cols-3 gap-5 mt-5'>
             {
               SelectTravelsList.map((item, index) => (
