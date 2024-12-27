@@ -8,6 +8,10 @@ import { HotelImages } from '@/constants/options';
 import { DayImages } from '@/constants/options';
 
 function ViewTrip() {
+    useEffect(() => {
+        // Scroll to the top of the page on component mount
+        window.scrollTo(0, 0);
+      }, []);
 
     const { tripId } = useParams();
     const [trip, setTrip] = useState({});

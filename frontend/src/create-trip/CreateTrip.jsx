@@ -229,11 +229,11 @@ function CreateTrip(props) {
   return (
     <div className='py-1 sm:px-10 md:px-32 lg:px-56 xl:px-70 px-5'>
       <div className='flex flex-col mb-10 justify-between shadow-slate-950 bg-gradient-to-r from-gray-50 to-gray-200 rounded-lg p-10'>
-        <div className='absolute right-5'>
+        <div className='absolute top-14 right-5 sm:absolute sm:right-5 sm:top-32'>
           {
-            loggedIn ? (<button className='bg-red-600 py-1 px-6 rounded text-gray-100 font-semibold hover:bg-red-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LogoutHandler}>Log out</button>)
+            loggedIn ? (<button className='p-1 bg-red-600 sm:py-1 sm:px-6 rounded text-gray-100 font-semibold hover:bg-red-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LogoutHandler}>Log out</button>)
               : (
-                <button className='bg-green-600 py-1 px-6 rounded text-gray-100 font-semibold hover:bg-green-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LoginHandler}>Log In</button>
+                <button className='p-1 bg-green-600 sm:py-1 sm:px-6 rounded text-gray-100 font-semibold hover:bg-green-300 hover:text-gray-900 hover:font-semibold hover:border-none transition duration-300' onClick={LoginHandler}>Log In</button>
               )
           }
         </div>
