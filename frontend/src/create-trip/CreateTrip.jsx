@@ -34,28 +34,28 @@ function CreateTrip(props) {
   const [suggestions, setSuggestions] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [tripData, setTripData] = useState({
-    userEmail:`${localStorage.getItem('email')}`,
+    userEmail: `${localStorage.getItem('email')}`,
     tripId: '',
     formData: {},
     hotels: [],
     itinerary: {},
   });
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(false);
 
 
 
   const fetchSuggestions = async (input) => {
-    if(!input){
+    if (!input) {
       setSuggestions([])
       return;
     }
     const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(input)}&limit=5`)
     const data = await response.json();
 
-    if(data && data.features){
+    if (data && data.features) {
       setSuggestions(data.features);
     }
-    else{
+    else {
       setSuggestions([])
     }
   }
@@ -65,22 +65,22 @@ function CreateTrip(props) {
     const country = suggestion.properties.country;
     const newQuery = `${name}, ${country}`
     setQuery(newQuery);
-    handleInputChange('Location',newQuery)
+    handleInputChange('Location', newQuery)
     setSuggestions([]);
   };
 
 
-  const placeHandler =async (event) => {
+  const placeHandler = async (event) => {
     const newQuery = event.target.value;
     setQuery(newQuery);
     fetchSuggestions(newQuery);
-    handleInputChange('Location',newQuery)
+    handleInputChange('Location', newQuery)
   }
-  const handleInputChange = (name,value) => {
-          setFormData({
-        ...formData,
-        [name]: value
-      })
+  const handleInputChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value
+    })
   }
 
   const submitHandler = async () => {
@@ -102,15 +102,15 @@ function CreateTrip(props) {
 
   const authenticateUserWithGoogle = useGoogleLogin({
     onSuccess: (codeResp) => {
-      codeResp.created_at = Math.floor(Date.now()/1000);
-      codeResp.expires_in = 3*60*60;
+      codeResp.created_at = Math.floor(Date.now() / 1000);
+      codeResp.expires_in = 3 * 60 * 60;
       GetUserProfile(codeResp);
       setLoggedIn(true);
       localStorage.setItem('loggedIn', true);
       localStorage.setItem('token_expiry', codeResp.created_at + codeResp.expires_in)
       console.log(codeResp);
     },
-    onError:(error) => console.log('hii',error),
+    onError: (error) => console.log('hii', error),
   })
 
   const GetUserProfile = (tokenInfo) => {
@@ -123,7 +123,7 @@ function CreateTrip(props) {
         }
       }
     ).then((resp) => {
-      console.log(resp);   
+      console.log(resp);
       setOpenDialog(false)
       localStorage.setItem('email', resp?.data?.email)
       localStorage.setItem('profilepic', resp?.data?.picture)
@@ -153,7 +153,7 @@ function CreateTrip(props) {
       LogoutHandler();
     }, timeout);
   };
-  
+
   // Run token validity check on component mount
   useEffect(() => {
     checkTokenValidity();
@@ -207,9 +207,9 @@ function CreateTrip(props) {
     setAiTripDone(true)
   }
   const savetrip = async (tripData) => {
-    console.log(tripData)
     if (tripData) {
       try {
+        setProcessing(true);
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/api/v1/savetrip`, tripData);
         console.log(response);
 
@@ -217,9 +217,11 @@ function CreateTrip(props) {
           toast.success('Trip saved successfully!');
           navigate('/viewtrip/' + tripData?.tripId)
         }
+        setProcessing(false);
       } catch (error) {
         console.error('Error saving trip:', error);
         toast.error('Error while saving trip');
+        setProcessing(false);
       }
     }
   }
@@ -239,13 +241,13 @@ function CreateTrip(props) {
         </div>
 
         <motion.h2
-          variants={fadeIn('right',0.1)}
+          variants={fadeIn('right', 0.1)}
           initial='hidden'
           whileInView='show'
           className='font-bold text-4xl text-center text-gray-800'>Tell us about your plan ✈️
         </motion.h2>
         <motion.p
-          variants={fadeIn('left',0.1)}
+          variants={fadeIn('left', 0.1)}
           initial='hidden'
           whileInView='show'
           className='mt-3 text-gray-600 text-lg text-center'>Just tell us what is in your mind and we will give you the best facilities and features...</motion.p>
@@ -253,62 +255,62 @@ function CreateTrip(props) {
         <div className='flex flex-col gap-10'>
           <div className='mt-20'>
             <motion.h2
-              variants={fadeIn('left',0.1)}
+              variants={fadeIn('left', 0.1)}
               initial='hidden'
               animate='show'
               className='text-xl my-3 font-medium'>
               "Hey there, What should we call you?"
             </motion.h2>
             <motion.input
-                variants={fadeIn('left',0.1)}
-                initial='hidden'
-                animate='show'
-            type='text' className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]' onChange={(e) => { handleInputChange('Name', e.target.value) }
-            }></motion.input>
+              variants={fadeIn('left', 0.1)}
+              initial='hidden'
+              animate='show'
+              type='text' className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]' onChange={(e) => { handleInputChange('Name', e.target.value) }
+              }></motion.input>
           </div>
           <div className='10'>
-          <motion.h2
-              variants={fadeIn('left',0.1)}
+            <motion.h2
+              variants={fadeIn('left', 0.1)}
               initial='hidden'
               animate='show'
               className='text-xl my-3 font-medium'>What is your destination of choice?</motion.h2>
             <div>
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(event)=>placeHandler(event)}
-                  placeholder="Search for a location..."
-                  className='bg-gray-200 py-1 px-2 border-b-2 border-gray-700 rounded w-[70%] focus:outline-none'
-                />
-                <ul>
-                  {suggestions.map((suggestion, index) => (
+              <input
+                type="text"
+                value={query}
+                onChange={(event) => placeHandler(event)}
+                placeholder="Search for a location..."
+                className='bg-gray-200 py-1 px-2 border-b-2 border-gray-700 rounded w-[70%] focus:outline-none'
+              />
+              <ul>
+                {suggestions.map((suggestion, index) => (
                   <li key={index}
-                      className='bg-gray-300 px-2 py-1 mb-1 rounded hover:bg-gray-400 transition duration-300'
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      style={{ cursor: 'pointer' }}>
-                  <FaLocationDot className='inline-block'/> {suggestion.properties.name}, {suggestion.properties.country}
+                    className='bg-gray-300 px-2 py-1 mb-1 rounded hover:bg-gray-400 transition duration-300'
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    style={{ cursor: 'pointer' }}>
+                    <FaLocationDot className='inline-block' /> {suggestion.properties.name}, {suggestion.properties.country}
                   </li>
-                  ))}
-                </ul>
+                ))}
+              </ul>
             </div>
           </div>
 
           <div>
-          <motion.h2
-              variants={fadeIn('left',0.1)}
+            <motion.h2
+              variants={fadeIn('left', 0.1)}
               initial='hidden'
-              animate='show' 
+              animate='show'
               className='text-xl my-3 font-medium'>How many days are you planning your trip?</motion.h2>
             <input type='number' placeholder='Ex-3' onChange={(e) => { handleInputChange('Days', e.target.value) }} className='bg-gray-200 py-1 px-2 rounded border-b-2 border-b-gray-700 focus:outline-none w-[70%]'></input>
           </div>
         </div>
 
         <div className='mt-20'>
-        <motion.h2
-              variants={fadeIn('left',0.1)}
-              initial='hidden'
-              animate='show' 
-              className='text-xl my-3 font-medium'>Tell us about your budget?</motion.h2>
+          <motion.h2
+            variants={fadeIn('left', 0.1)}
+            initial='hidden'
+            animate='show'
+            className='text-xl my-3 font-medium'>Tell us about your budget?</motion.h2>
           <p className='text-gray-600 text-sm font-medium'>Just asking to get an idea to plan activities for you...</p>
           <div className='xs:flex xs:flex-col sm:flex sm:flex-col md:grid lg:grid xl:grid grid-cols-3 gap-5 mt-5'>
             {
@@ -327,11 +329,11 @@ function CreateTrip(props) {
         </div>
 
         <div className='mt-20'>
-        <motion.h2
-              variants={fadeIn('left',0.1)}
-              initial='hidden'
-              animate='show' 
-              className='text-xl my-3 font-medium'>Who do you plan on travelling with on your next adventure?</motion.h2>
+          <motion.h2
+            variants={fadeIn('left', 0.1)}
+            initial='hidden'
+            animate='show'
+            className='text-xl my-3 font-medium'>Who do you plan on travelling with on your next adventure?</motion.h2>
           <div className='xs:flex xs:flex-col sm:flex sm:flex-col md:grid lg:grid xl:grid grid-cols-3 gap-5 mt-5'>
             {
               SelectTravelsList.map((item, index) => (
@@ -355,10 +357,12 @@ function CreateTrip(props) {
               processing ? (<Spinner />) : ('Generate Trip')
             }
           </button>
-            {
-              AiTripDone &&
-              <button onClick={()=>savetrip(tripData,tripId)} className='font-semibold px-8 py-2 rounded bg-gray-300 hover:text-gray-200 border-2 border-green-500 hover:bg-gray-700 transition duration-300 ease-in-out hover:border-none'>Review trip ➡️</button>
-            }
+          {
+            AiTripDone &&
+            <button onClick={() => savetrip(tripData, tripId)} className='font-semibold px-8 py-2 rounded bg-gray-300 hover:text-gray-200 border-2 border-green-500 hover:bg-gray-700 transition duration-300 ease-in-out hover:border-none'>{
+              processing ? (<Spinner/>) : ('Review trip ➡️')
+            }</button>
+          }
         </div>
 
         <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
